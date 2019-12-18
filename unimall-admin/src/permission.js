@@ -14,7 +14,7 @@ function hasPermission(perms, permissions) {
   return perms.some(perm => permissions.indexOf(perm) >= 0)
 }
 
-const whiteList = ['/login', '/auth-redirect']// no redirect whitelist
+const whiteList = ['/login','/sendMsg', '/testTable','/auth-redirect']// no redirect whitelist
 
 router.beforeEach((to, from, next) => {
   NProgress.start() // start progress bar
@@ -49,6 +49,8 @@ router.beforeEach((to, from, next) => {
     }
   } else {
     /* has no token*/
+    console.log(to.path)
+    console.log("to.path")
     if (whiteList.indexOf(to.path) !== -1) { // 在免登录白名单，直接进入
       next()
     } else {

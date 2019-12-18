@@ -1,6 +1,6 @@
 module.exports = {
 	NODE_ENV: '"production"',
 	ENV_CONFIG: '"prod"',
-    HOST: '"https://fresh.easycampus.cn"',
-  	BASE_API: '"https://fresh.easycampus.cn/m.api"'
+    HOST: '"http://47.101.33.153:8085"',
+  BASE_API: '"http://47.101.33.153:8085/m.api"'
 }

@@ -70,7 +70,8 @@ public interface AdminService {
     public Boolean sendLoginMsg(
             @NotNull @HttpParam(name = "username", type = HttpParamType.COMMON, description = "用户名") String username,
             @NotNull @HttpParam(name = "password", type = HttpParamType.COMMON, description = "密码") String password) throws ServiceException;
-    @HttpMethod(description = "发送短信")
+    @HttpMethod(description = "发送短信" ,permission = "operation:message:send", permissionParentName = "运营管理", permissionName = "发送短信" )
+//    @HttpMethod(description = "发送短信" ) permission 和 permissionParentName 是否需要对应 验证不需要 只要改好 permission即可
     public Boolean sendPhoneMsg(
             @NotNull @HttpParam(name = "message", type = HttpParamType.COMMON, description = "信息内容") String message,
             @NotNull @HttpParam(name = "phone", type = HttpParamType.COMMON, description = "手机号") String phone) throws ServiceException;

@@ -51,6 +51,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int;
+
 /**
  * Created with IntelliJ IDEA.
  * Description:
@@ -132,7 +134,9 @@ public class ApiController {
             Method method = apiManager.getMethod(_gp, _mt);
             String[] accessTokenGb = parameterMap.get("admintoken");
             if(accessTokenGb == null  || accessTokenGb.length == 0 ){
+                accessTokenGb=new String[1] ;
             }else{
+
                 String admin = userRedisTemplate.opsForValue().get(Const.ADMIN_REDIS_PREFIX + accessTokenGb);
                 if (StringUtils.isEmpty(admin)) {
                     List<AdminDO> adminDOS = adminMapper.selectList(
@@ -182,18 +186,30 @@ public class ApiController {
                 throw new LauncherServiceException(LauncherExceptionDefinition.LAUNCHER_API_NOT_EXISTS);
             }
             String permission = httpMethod.permission();
+            //                    String permission = httpMethod.permission();  在方法头里声明 如果此方法需要权限则需要判断  并在此方法体内做逻辑处理
+
+            //
             if (!StringUtils.isEmpty(permission)) {
                 //若需要权限，则校验当前用户是否具有权限
                 String accessToken = request.getHeader(Const.ADMIN_ACCESS_TOKEN)!=null? request.getHeader(Const.ADMIN_ACCESS_TOKEN) : accessTokenGb[0];
                 String admin = userRedisTemplate.opsForValue().get(Const.ADMIN_REDIS_PREFIX + accessToken);
                 // 暂时注释
-                if (StringUtils.isEmpty(admin)) {
-                    throw new LauncherServiceException(LauncherExceptionDefinition.LAUNCHER_ADMIN_NOT_LOGIN);
-                }
-                AdminDTO adminDTO = JSONObject.parseObject(admin, AdminDTO.class);
-                SessionUtil.setAdmin(adminDTO);
-                if (!SessionUtil.hasPerm(permission)) {
-                    throw new LauncherServiceException(LauncherExceptionDefinition.LAUNCHER_ADMIN_PERMISSION_DENY);
+
+                // 针对此菜单  不做登陆检验
+
+                if(_gp== "goods" &&  _mt=="getGoodsPage") {
+
+                }else{
+                    if (StringUtils.isEmpty(admin)) {
+                        throw new LauncherServiceException(LauncherExceptionDefinition.LAUNCHER_ADMIN_NOT_LOGIN);
+                    }
+                    AdminDTO adminDTO = JSONObject.parseObject(admin, AdminDTO.class);
+                    SessionUtil.setAdmin(adminDTO);
+
+                    if (!SessionUtil.hasPerm(permission)) {
+                        throw new LauncherServiceException(LauncherExceptionDefinition.LAUNCHER_ADMIN_PERMISSION_DENY);
+                    }
+
                 }
 
             }
@@ -252,7 +268,7 @@ public class ApiController {
                     }
                 } else if (httpParam.type() == HttpParamType.USER_ID) {
 //                    String accessToken = request.getHeader(Const.USER_ACCESS_TOKEN);
-                    String accessToken = request.getHeader(Const.ADMIN_ACCESS_TOKEN) !=null? request.getHeader(Const.ADMIN_ACCESS_TOKEN) : accessTokenGb[0];
+                    String accessToken = request.getHeader(Const.USER_ACCESS_TOKEN) !=null? request.getHeader(Const.USER_ACCESS_TOKEN) : accessTokenGb[0];
                     if (!StringUtils.isEmpty(accessToken)) {
                         String userJson = userRedisTemplate.opsForValue().get(Const.USER_REDIS_PREFIX + accessToken);
                         if (!StringUtils.isEmpty(userJson)) {

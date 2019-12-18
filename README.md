@@ -13,10 +13,20 @@ npm webstorm 一切就绪 可以进行以下步骤
 4. 登陆验证码可以自动屏蔽（根据规则） 代码 admin_msg_code_手机号码 值
 5.新增加一个增删改实例
 ...
-6. admin 放入ngnix
+6. 修改info文档弄成 yapi形式  修改页面  （扩展 api样式） 
 7. 打包jar包 把服务跑起来
-8 用一个简单表格做上增删改查  和那个发送短信例子 只开放给一个用户使用
-9.修改info文档弄成 yapi形式  修改页面  （扩展 api样式）
+进入unimall项目根目录，执行
+mvn package -Dmaven.test.skip=true
+跑起来 nohup java -jar unimall-launcher-0.0.1-RELEASE.jar --spring.profiles.active=prd >/dev/null &
+
+
+8 用一个简单表格做上增删改查  和那个发送短信例子 只开放给一个用户使用 testTable
+不需要登陆  针对某个菜单 goods getGoodsPage 
+和需要登陆才能查询
+
+和需要登陆放开得权限   operation:order:list  测试这个权限
+
+9.admin 放入ngnix
 
 
 ...

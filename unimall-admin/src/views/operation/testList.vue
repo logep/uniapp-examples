@@ -2,57 +2,17 @@
   <div class="app-container">
     <!-- 查询和其他操作 -->
     <div class="filter-container">
-      <!--<el-input v-model="listQuery.userId" clearable class="filter-item" style="width: 200px;" placeholder="请输入用户ID"/>-->
       <el-input
-        v-model="listQuery.orderNo"
+        v-model="listQuery.title"
         clearable
         class="filter-item"
         style="width: 200px;"
-        placeholder="请输入订单编号"
+        placeholder="请输入商品名称"
       />
-      <el-select
-        v-model="listQuery.status"
-        style="width: 200px"
-        class="filter-item"
-        placeholder="请选择订单状态"
-      >
-        <el-option v-for="(key, value) in statusMap" :key="key" :label="key" :value="value" />
-      </el-select>
-      <el-button
-        v-permission="['operation:order:list']"
-        class="filter-item"
-        type="primary"
-        icon="el-icon-search"
-        @click="handleFilter"
-      >查找</el-button>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <br>
-      <el-date-picker
-        v-model="downData.gmtStart"
-        type="datetime"
-        style="width: 200px"
-        class="filter-item"
-        default-time="00:00:00"
-        placeholder="选择开始日期"
-      />
-      至
-      <el-date-picker
-        v-model="downData.gmtEnd"
-        type="datetime"
-        style="width: 200px"
-        class="filter-item"
-        default-time="00:00:00"
-        placeholder="选择结束日期"
-      />
-      <el-select
-        v-model="downData.status"
-        style="width: 200px"
-        class="filter-item"
-        placeholder="待出库"
-      >
-        <el-option v-for="(key, value) in statusMap" :key="key" :label="key" :value="value" />
-      </el-select>
+      <!--v-permission="['operation:goods:list']"-->
+      <el-button  class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
       <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="downExcelBtn">导出</el-button>
+      <!--<el-button v-permission="['operation:goods:create']" class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">添加</el-button>-->
     </div>
 
     <!-- 查询结果 -->
@@ -65,65 +25,64 @@
       fit
       highlight-current-row
     >
-      <el-table-column align="center" min-width="75" max-width="75" label="订单编号" prop="orderNo" />
-
-      <el-table-column align="center" label="用户ID" prop="userId" />
-
-      <el-table-column align="center" label="订单状态" prop="status">
-        <template slot-scope="scope">
-          <el-tag>{{ scope.row.status | orderStatusFilter }}</el-tag>
+      <el-table-column type="expand">
+        <template slot-scope="props">
+          <el-form label-position="left" class="table-expand">
+            <el-form-item label="商品单位">
+              <span>{{ props.row.unit }}</span>
+            </el-form-item>
+            <el-form-item label="类目ID">
+              <span>{{ props.row.categoryId }}</span>
+            </el-form-item>
+          </el-form>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="支付渠道" prop="payChannel">
+      <el-table-column align="center" label="商品编号" prop="id" />
+
+      <el-table-column align="center" min-width="100" label="名称" prop="title" />
+
+      <el-table-column align="center" property="img" label="图片">
         <template slot-scope="scope">
-          <el-tag>{{ scope.row.payChannel | payChannelFilter }}</el-tag>
+          <img :src="scope.row.img" width="40" >
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="订单金额" prop="actualPrice">
-        <template slot-scope="scope">¥ {{ scope.row.actualPrice / 100.0 }}</template>
-      </el-table-column>
-
-      <!--<el-table-column align="center" label="支付金额" prop="actualPrice"/>-->
-
-      <el-table-column align="center" label="创建时间" prop="gmtCreate">
-        <template slot-scope="scope">{{ scope.row.gmtCreate | formatTime }}</template>
-      </el-table-column>
-
-      <!--<el-table-column align="center" label="物流单号" prop="shipSn"/>-->
-
-      <!--<el-table-column align="center" label="物流渠道" prop="shipChannel"/>-->
-
-      <el-table-column align="center" label="操作" width="300" class-name="small-padding fixed-width">
+      <el-table-column align="center" label="详情" prop="detail">
         <template slot-scope="scope">
-          <el-button
-            v-permission="['operation:order:detail']"
-            type="primary"
-            size="mini"
-            @click="handleDetail(scope.row)"
-          >详情</el-button>
-          <el-button
-            v-permission="['operation:order:detail']"
-            v-if="scope.row.status===20"
-            type="primary"
-            size="mini"
-            @click="downOrderExcelBtn(scope.row)"
-          >配送单</el-button>
-          <el-button
-            v-permission="['operation:order:ship']"
-            v-if="scope.row.status===20"
-            type="primary"
-            size="mini"
-            @click="handleShip(scope.row)"
-          >发货</el-button>
-          <el-button
-            v-permission="['operation:order:refund']"
-            v-if="scope.row.status===60"
-            type="primary"
-            size="mini"
-            @click="handleRefund(scope.row)"
-          >退款</el-button>
+          <el-dialog :visible.sync="detailDialogVisible" title="商品详情">
+            <div v-html="goodsDetail" />
+          </el-dialog>
+          <el-button type="primary" size="mini" @click="showDetail(scope.row.detail)">查看</el-button>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="原价" prop="originalPrice" />
+
+      <el-table-column align="center" label="现价" prop="price" />
+
+      <el-table-column align="center" label="VIP价格" prop="vipPrice" />
+
+      <el-table-column align="center" label="是否在售" prop="status">
+        <template slot-scope="scope">
+          <el-tag
+            :type="scope.row.status == 1 ? 'success' : 'error' "
+          >{{ scope.row.status == 1 ? '在售' : '未售' }}</el-tag>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        align="center"
+        max-width="300"
+        min-width="300"
+        label="描述"
+        prop="description"
+      />
+
+      <el-table-column align="center" label="操作" width="200" class-name="small-padding fixed-width">
+        <template slot-scope="scope">
+          <el-button v-permission="['operation:goods:edit']" type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
+          <el-button v-permission="['operation:goods:delete']" type="danger" size="mini" @click="handleDelete(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -135,102 +94,6 @@
       :limit.sync="listQuery.limit"
       @pagination="getList"
     />
-
-    <!-- 订单详情对话框 -->
-    <el-dialog :visible.sync="orderDialogVisible" title="订单详情" width="800">
-      <el-form :data="orderDetail" label-position="left">
-        <el-form-item label="订单编号">
-          <span>{{ orderDetail.orderNo }}</span>
-        </el-form-item>
-        <el-form-item label="用户Id">
-          <span>{{ orderDetail.userId }}</span>
-        </el-form-item>
-        <el-form-item label="订单渠道">
-          <span>{{ orderDetail.channel }}</span>
-        </el-form-item>
-        <el-form-item label="订单状态">
-          <template>
-            <el-tag>{{ orderDetail.status | orderStatusFilter }}</el-tag>
-          </template>
-        </el-form-item>
-        <el-form-item label="支付渠道">
-          <template>
-            <el-tag>{{ orderDetail.payChannel | payChannelFilter }}</el-tag>
-          </template>
-        </el-form-item>
-        <el-form-item label="用户留言">
-          <span>{{ orderDetail.mono }}</span>
-        </el-form-item>
-        <el-form-item label="收货信息">
-          <span>（收货人）{{ orderDetail.consignee }}</span>
-          <span>（手机号）{{ orderDetail.phone }}</span>
-          <span>（地址）{{ orderDetail.province }}{{ orderDetail.city }}{{ orderDetail.county }}{{ orderDetail.address }}{{ orderDetail.address }}</span>
-        </el-form-item>
-        <el-form-item label="商品信息">
-          <el-table :data="orderDetail.skuList" size="small" border fit highlight-current-row>
-            <el-table-column align="center" label="名称" prop="spuTitle" />
-            <el-table-column align="center" label="规格" prop="title" />
-            <el-table-column align="center" label="商品数量" prop="num" />
-            <el-table-column align="center" label="总价（单价*数量）">
-              <template slot-scope="scope">
-                <span>{{ scope.row.price * scope.row.num / 100 }}</span>
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-form-item>
-      </el-form>
-    </el-dialog>
-
-    <!-- 发货对话框 -->
-    <el-dialog :visible.sync="shipDialogVisible" title="发货">
-      <el-form
-        ref="shipForm"
-        :model="shipForm"
-        :rules="shipRules"
-        status-icon
-        label-position="left"
-        label-width="100px"
-        style="width: 400px; margin-left:50px;"
-      >
-        <el-form-item label="快递公司" prop="shipCode">
-          <el-select v-model="shipForm.shipCode" placeholder="请选择快递公司">
-            <el-option v-for="(key, value) in shipCodeMap" :key="key" :label="key" :value="value"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="快递编号" prop="shipNo">
-          <el-input :disabled="shipForm.shipCode === 'NONE'" v-model="shipForm.shipNo" />
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="shipDialogVisible = false">取消</el-button>
-        <el-button :disabled="shipSubmiting" type="primary" @click="confirmShip">确定</el-button>
-      </div>
-    </el-dialog>
-
-    <!-- 退款对话框 -->
-    <el-dialog :visible.sync="refundDialogVisible" title="退款">
-      <el-form
-        ref="refundForm"
-        :model="refundForm"
-        :rules="refundRules"
-        status-icon
-        label-position="left"
-        label-width="100px"
-        style="width: 400px; margin-left:50px;"
-      >
-        <el-form-item label="tips">
-          <span>允许退款后钱会退回对方账户，请确认您已经收到退货</span>
-        </el-form-item>
-        <el-form-item label="操作">
-          <el-radio v-model="refundForm.type" label="0">拒绝退款</el-radio>
-          <el-radio v-model="refundForm.type" label="1">允许退款</el-radio>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="refundDialogVisible = false">取消</el-button>
-        <el-button :disabled="refundSubmiting" type="primary" @click="confirmRefund">确定</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -238,7 +101,7 @@
 </style>
 
 <script>
-import { listOrder, shipOrder, refundOrder, detailOrder, getExcelInfo } from '@/api/order'
+import { listOrderTest, shipOrder, refundOrder, detailOrder, getExcelInfo } from '@/api/order'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import checkPermission from '@/utils/permission' // 权限判断函数
 
@@ -295,6 +158,8 @@ export default {
   },
   data() {
     return {
+      goodsDetail: '',
+      detailDialogVisible: false,
       excelData: {
         barcode: undefined,
         name: undefined,
@@ -618,7 +483,7 @@ export default {
           'totalPageNo': 17
         }, 'errmsg': '成功', 'errno': 200, 'timestamp': 1576140689132
       },
-      list: [
+      list2: [
         {
           'actualPrice': 7200,
           'channel': 'android',
@@ -915,6 +780,7 @@ export default {
           'status': 90,
           'userId': 138
         }],
+      list:[],
       total: 0,
       listLoading: true,
       listQuery: {
@@ -966,10 +832,16 @@ export default {
   },
   methods: {
     checkPermission,
+    showDetail(detail) {
+      this.goodsDetail = detail
+      this.detailDialogVisible = true
+    },
     getList() {
       this.listLoading = true
-      listOrder(this.listQuery)
+      listOrderTest(this.listQuery)
         .then(response => {
+          console.log(response)
+          console.log(response)
           this.list = response.data.data.items
           this.total = response.data.data.total
           this.listLoading = false
@@ -1076,34 +948,41 @@ export default {
     // 选择条件下载
     downExcelBtn() {
       this.downloadLoading = true
-      getExcelInfo(this.downData).then(response => {
-        if (response.data.data == null) {
+      new Promise((resolve, reject) => {resolve(this.list)}).then(response => {
+      // getExcelInfo(this.list).then(response => {
+        console.log(response)
+        console.log("response")
+        if (response == null) {
           this.$notify.error({
             title: '失败',
             message: '没有信息可以打印'
           })
         }
 
-        var data = response.data.data
-        for (var i = 0; i < data.length; i++) {
-          var temp = data[i]
-          this.downData.address = temp.province + temp.city + temp.county + temp.address
-          for (var j = 0; j < temp.skuList.length; j++) {
-            var sku = temp.skuList[j]
-            this.downData.unit = sku.unit
-            this.downData.num = sku.num
-            this.downData.specifications = sku.title
-            this.downData.barcode = sku.barCode
-            this.downData.name = sku.spuTitle
-            var copy = Object.assign({}, this.downData)
-            this.excelDataList.push(copy)
-          }
-        }
-        this.handleDownload(this.excelDataList)
+        var data = response
+        console.log(data)
+        console.log(data.length)
+        console.log("response")
+        // for (var i = 0; i < data.length; i++) {
+        //   var temp = data[i]
+        //   this.downData.address = temp.province + temp.city + temp.county + temp.address
+        //   for (var j = 0; j < temp.skuList.length; j++) {
+        //     var sku = temp.skuList[j]
+        //     this.downData.unit = sku.unit
+        //     this.downData.num = sku.num
+        //     this.downData.specifications = sku.title
+        //     this.downData.barcode = sku.barCode
+        //     this.downData.name = sku.spuTitle
+        //     var copy = Object.assign({}, this.downData)
+        //     this.excelDataList.push(copy)
+        //   }
+        // }
+        this.handleDownload(response)
         this.excelDataList = []
         this.downloadLoading = false
       })
         .catch(response => {
+          console.log(response)
           this.downloadLoading = false
           this.$notify.error({
             title: '失败',
@@ -1114,32 +993,14 @@ export default {
     handleDownload(data) {
       import('@/vendor/Export2Excel').then(excel => {
         const tHeader = [
-          '商品编码',
-          '国际条码',
-          '商品名称',
-          '规格',
-          '单位',
-          '包装系数',
-          '配送数量',
-          '件数',
-          '配送机构',
-          '备注',
-          '配送规格',
-          '零售价'
+          '原价',
+          '现价',
+          'VIP价格',
         ]
         const filterVal = [
-          'productCode',
-          'barcode',
-          'name',
-          'specifications',
-          'unit',
-          'coefficient',
-          'num',
-          'num',
-          'address',
-          'note',
-          'deliveryLine',
-          'retailPrice'
+          'originalPrice',
+          'price',
+          'vipPrice',
         ]
         excel.export_json_to_excel2(tHeader, data, filterVal, '订单信息')
       })

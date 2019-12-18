@@ -38,6 +38,38 @@ export const constantRouterMap = [
     ]
   },
   {
+    path: '',
+    component: Layout,
+    redirect: 'dashboard',
+    children: [
+      {
+        path:"/sendMsg",
+        meta:{
+          "noCache":true,
+          "perms":[
+            "operation:freight:sendMsg"
+          ],
+          "title":"发送短信"
+        },
+        name:"sendMsg",
+        component: () => import('@/views/operation/sendMsg'),
+      }
+    ]
+  },
+
+  {
+    path:"/testTable",
+    meta:{
+      "noCache":true,
+      "perms":[
+        "operation:freight:sendMsg"
+      ],
+      "title":"测试列表"
+    },
+    name:"testTable",
+    component: () => import('@/views/operation/testList'),
+  },
+  {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true

@@ -178,6 +178,8 @@ export default {
       this.$router.push({ path: '/goods/upsert', query: { id: row.id }})
     },
     showDetail(detail) {
+      console.log(detail)
+      console.log("detail")
       this.goodsDetail = detail
       this.detailDialogVisible = true
     },

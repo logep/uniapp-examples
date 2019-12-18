@@ -3,6 +3,18 @@
 		"redirect":"noredirect",
 		"path":"/mall",
 		"children":[
+      {
+        "path":"/sendMsg",
+        "meta":{
+          "noCache":true,
+          "perms":[
+            "operation:freight:sendMsg"
+          ],
+          "title":"发送短信"
+        },
+        "name":"sendMsg",
+        "page":"/operation/sendMsg"
+      },
 			{
 				"path":"order",
 				"meta":{
@@ -43,19 +55,8 @@
 				},
 				"name":"freight",
 				"page":"/operation/freight"
-			},
-      {
-        "path":"sendMsg",
-        "meta":{
-          "noCache":true,
-          "perms":[
-            "operation:freight:sendMsg"
-          ],
-          "title":"发送短信"
-        },
-        "name":"sendMsg",
-        "page":"/operation/sendMsg"
-      }
+			}
+
 		],
 		"meta":{
 			"icon":"chart",

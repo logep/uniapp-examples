@@ -10,6 +10,16 @@ export function listOrder(query) {
     }
   })
 }
+export function listOrderTest(query) {
+  return request({
+    method: 'get',
+    params: {
+      _gp: 'goods',
+      _mt: 'getGoodsPage',
+      ...query
+    }
+  })
+}
 
 export function detailOrder(orderId) {
   return request({

@@ -13,9 +13,10 @@ Object.keys(filters).forEach(key => {
 let jweixin = require('./components/jweixin-module')
 let jwx = require('./components/jweixin-module/jwx')
 Vue.mixin({
+	// todo 这个地方需要注意 某些端不需要调用
 	onShow() {
-		jwx.configWeiXin(jwx => {
-		})
+		// jwx.configWeiXin(jwx => {
+		// })
 	}
 })
 //#endif
@@ -52,7 +53,8 @@ const isVip = () => {
 	return userInfo && userInfo.level
 }
 
-let loginLock = false
+// 这个地方没控制 todo
+let loginLock = true
 
 const request = (_gp, _mt, data = {}, failCallback) => {
 	//异步请求数据

@@ -1,11 +1,18 @@
 {
 	"pages": [
 		{
+			"path": "pages/product/favorite",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "商品收藏"
+			}
+		},
+		{
 			"path": "pages/index/index",
 			"style": {
-				// #ifdef MP 
+				// #ifdef MP
 				"navigationBarTitleText": "unimall",
-				// #endif 
+				// #endif
 				"app-plus": {
 					"titleNView": {
 						"type": "transparent",
@@ -197,7 +204,7 @@
 					"bounce": "none"
 				}
 			}
-        } 
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
