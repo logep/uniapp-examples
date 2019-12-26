@@ -37,4 +37,7 @@ public class LauncherExceptionDefinition {
     public static final ServiceExceptionDefinition LAUNCHER_ADMIN_PERMISSION_DENY =
             new ServiceExceptionDefinition(10008, "管理员权限不足");
 
+    public static final ServiceExceptionDefinition LAUNCHER_ACCESS_LIMIT_REACHED =
+            new ServiceExceptionDefinition(10009, "访问太频繁");
+
 }

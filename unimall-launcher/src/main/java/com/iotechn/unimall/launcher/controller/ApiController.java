@@ -185,6 +185,11 @@ public class ApiController {
                 //只起标记作用防止调到封闭方法了
                 throw new LauncherServiceException(LauncherExceptionDefinition.LAUNCHER_API_NOT_EXISTS);
             }
+
+
+
+
+
             String permission = httpMethod.permission();
             //                    String permission = httpMethod.permission();  在方法头里声明 如果此方法需要权限则需要判断  并在此方法体内做逻辑处理
 
@@ -203,9 +208,24 @@ public class ApiController {
                     if (StringUtils.isEmpty(admin)) {
                         throw new LauncherServiceException(LauncherExceptionDefinition.LAUNCHER_ADMIN_NOT_LOGIN);
                     }
+
+
+
+
                     AdminDTO adminDTO = JSONObject.parseObject(admin, AdminDTO.class);
                     SessionUtil.setAdmin(adminDTO);
-
+                    // 防止提交频繁
+                    String key = request.getRequestURI();
+                    key += "_" + adminDTO.getUsername();
+                    String count = userRedisTemplate.opsForValue().get(Const.ACCESS_LIMIT_REACHED + key);
+                    if(count  == null) {
+                        userRedisTemplate.opsForValue().set(Const.ACCESS_LIMIT_REACHED + key, "1", 5, TimeUnit.SECONDS);
+                    }else if(Integer.parseInt(count) < 5) {
+                        Integer c=Integer.parseInt(count);
+                        userRedisTemplate.opsForValue().set(Const.ACCESS_LIMIT_REACHED + key, ++c+"", 5, TimeUnit.SECONDS);
+                    }else {
+                        throw new LauncherServiceException(LauncherExceptionDefinition.LAUNCHER_ACCESS_LIMIT_REACHED);
+                    }
                     if (!SessionUtil.hasPerm(permission)) {
                         throw new LauncherServiceException(LauncherExceptionDefinition.LAUNCHER_ADMIN_PERMISSION_DENY);
                     }
@@ -213,6 +233,8 @@ public class ApiController {
                 }
 
             }
+
+
             Object serviceBean = applicationContext.getBean(method.getDeclaringClass());
             Parameter[] methodParameters = method.getParameters();
             Object[] args = new Object[methodParameters.length];

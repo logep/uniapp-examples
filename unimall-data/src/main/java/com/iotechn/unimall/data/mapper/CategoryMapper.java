@@ -8,6 +8,4 @@ import com.iotechn.unimall.data.domain.CategoryDO;
  */
 public interface CategoryMapper extends BaseMapper<CategoryDO> {
 
-
-
 }

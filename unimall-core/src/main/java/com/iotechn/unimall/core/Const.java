@@ -33,6 +33,7 @@ public class Const {
     public static final String ADMIN_ACCESS_TOKEN = "ADMINTOKEN";
 
     public static final String ADMIN_REDIS_PREFIX = "ADMIN_SESSION_";
+    public static final String ACCESS_LIMIT_REACHED = "ACCESS_LIMIT_REACHED";
 
 
 }

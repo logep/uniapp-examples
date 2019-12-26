@@ -18,7 +18,8 @@ npm webstorm 一切就绪 可以进行以下步骤
 进入unimall项目根目录，执行
 mvn package -Dmaven.test.skip=true
 跑起来 nohup java -jar unimall-launcher-0.0.1-RELEASE.jar --spring.profiles.active=prd >/dev/null &
-
+查看端口占用：  netstat -tunlp |grep 8085
+先kill掉8085端口运行的java进程.  kill -9 进程号
 
 8 用一个简单表格做上增删改查  和那个发送短信例子 只开放给一个用户使用 testTable
 不需要登陆  针对某个菜单 goods getGoodsPage 
@@ -27,8 +28,13 @@ mvn package -Dmaven.test.skip=true
 和需要登陆放开得权限   operation:order:list  测试这个权限
 
 9.admin 放入ngnix
-
-
+10. 做一个任意表的增删改查支持我的多项功能测试( 参照 api.goods.AdminGoodsServiceImpl 写的 AnyAttrService 服务类)
+11. http://localhost:8085/m.api?_gp=admin.anyattr&_mt=getList&id=1&type=2
+11..1 http://localhost:8085/m.api?_gp=admin.anyattr&_mt=updateObj&anyAttrDTO={"id":1,"attr1":"66666666","attr2":"555555"} post请求方式
+11..2 http://localhost:8085/m.api?_gp=admin.anyattr&_mt=insertObj&anyAttrDTO={"id":1,"attr1":"66666666","attr2":"555555"}
+11..3 http://localhost:8085/m.api?_gp=admin.anyattr&_mt=delById&aid=5f89f82f-d695-4fde-a167-6f73c6cb1a18
+11..4 http://localhost:8085/m.api?_gp=admin&_mt=login&username=guest&password=123456&verifyCode=666666 post请求方式
+12.增加频繁提交限制
 ...
 1.单独启动某一个模块
 
