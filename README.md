@@ -35,6 +35,10 @@ mvn package -Dmaven.test.skip=true
 11..3 http://localhost:8085/m.api?_gp=admin.anyattr&_mt=delById&aid=5f89f82f-d695-4fde-a167-6f73c6cb1a18
 11..4 http://localhost:8085/m.api?_gp=admin&_mt=login&username=guest&password=123456&verifyCode=666666 post请求方式
 12.增加频繁提交限制
+13.短信验证 先暂时去掉
+14修改admin和guest密码一样
+15.unimall 后台运营管理服务加pc端运营界面和角色 view-ui ui界面 app手机端 
+16.代码生成或者通过webstorm或者idea 自动生成 两种方式
 ...
 1.单独启动某一个模块
 

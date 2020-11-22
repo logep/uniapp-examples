@@ -1,5 +1,5 @@
 const dev = {
-	baseUrl: 'http://localhost:8085',
+	baseUrl: 'https://9ping.cn',
 	// baseUrl: 'http://47.101.33.153:8085',
 	// baseUrl: 'http://192.168.8.188:8081',
 	// baseUrl: 'https://fresh.easycampus.cn',

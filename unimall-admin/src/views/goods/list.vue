@@ -61,7 +61,7 @@
 
       <el-table-column align="center" label="VIP价格" prop="vipPrice" />
 
-      <el-table-column align="center" label="是否在售" prop="status">
+      <el-table-column align="center" label="1是否在售" prop="status">
         <template slot-scope="scope">
           <el-tag
             :type="scope.row.status == 1 ? 'success' : 'error' "
