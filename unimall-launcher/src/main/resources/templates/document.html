@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>easycampus Api文档</title>
+    <link href="https://iotechn.oss-cn-hangzhou.aliyuncs.com/open/style/commons.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://iotechn.oss-cn-hangzhou.aliyuncs.com/open/stylesheets/index-news.css">
+    <script src="https://iotechn.oss-cn-hangzhou.aliyuncs.com/open/js/jquery-lastest.js"></script>
+</head>
+<body>
+<style>
+    .open-header-icon:before, .open-main-icon:before {
+        content: ' ';
+        display: inline-block
+    }
+
+    .open-header-c2 a:hover, .open-list tr:hover a, .open-main h2:hover {
+        text-decoration: underline
+    }
+
+    .haitao-btn, .open-detail-btn, .open-footer, .open-main ul, .open-nav li {
+        text-align: center
+    }
+
+    .cb:after, .open-grid-c2, .open-nav ul {
+        overflow: hidden
+    }
+
+    .b-input, .doc-right {
+        box-sizing: border-box
+    }
+
+    .open-header-icon {
+        font-size: 12px
+    }
+
+    .open-header-icon:before {
+        vertical-align: middle;
+        background-image: url(../svg/open-header.svg);
+        background-repeat: no-repeat;
+        background-size: 37em 18em
+    }
+
+    .no-svg .open-header-icon:before {
+        background-image: url(../svg/open-header.png)
+    }
+
+    .open-header-icon.icon-chinese:before {
+        background-position: -.8333333333333334em -.8333333333333334em;
+        width: 2.25em;
+        height: 1.5em
+    }
+
+    .open-header-icon.icon-english:before {
+        background-position: -.8333333333333334em -4em;
+        width: 2.25em;
+        height: 1.5em
+    }
+
+    .open-header-icon.icon-logo:before {
+        background-position: -.8333333333333334em -7.166666666666666em;
+        width: 23.75em;
+        height: 4.166666666666667em
+    }
+
+    .open-header-icon.icon-logo-english:before {
+        background-position: -.8333333333333334em -13em;
+        width: 35.333333333333336em;
+        height: 4.166666666666667em
+    }
+
+    .open-header {
+        background: #fff
+    }
+
+    .open-header-c1 {
+        padding-top: 20px;
+        padding-bottom: 20px
+    }
+
+    .open-header-c2 {
+        padding-top: 27px;
+        padding-right: 15px
+    }
+
+    .open-header-c2 .open-header-icon {
+        vertical-align: 1px
+    }
+
+    .open-header-c2 .open-header-icon:before {
+        margin-left: 20px;
+        margin-right: 8px
+    }
+
+    .open-header-welcome {
+        margin-right: 10px
+    }
+
+    .open-nav {
+        background-color: #32325d;
+        font-size: 18px;
+        letter-spacing: 1px;
+        color: #fff;;
+        height:56px;
+        line-height: 56px;
+        border: none;
+        padding: 0 10px;
+        box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+        transform: translateY(0);
+        transition: all .2s;
+    }
+
+    .open-nav li {
+        /*height: 32px;*/
+        /*line-height: 32px;*/
+        float: left;
+        font-size: 14px;
+        padding: 0 7px;
+        margin-right: 59px
+    }
+
+    .open-nav li.active, .open-nav li:hover {
+        border-bottom: 3px solid #E73936
+    }
+
+    .open-nav a {
+        color: #fff
+    }
+
+    .open-detail a, .open-list a {
+        color: #008CBA
+    }
+
+    .open-main-icon {
+        font-size: 10px;
+        position: relative
+    }
+
+    .open-main-icon:before {
+        vertical-align: middle;
+        background-image: url(../svg/open-main.svg);
+        background-repeat: no-repeat;
+        background-size: 18.2em 72.8em
+    }
+
+    .cb:after, .open-list th:nth-child(1):before, .open-sideber-list1 li.active:before {
+        content: ''
+    }
+
+    .no-svg .open-main-icon:before {
+        background-image: url(../svg/open-main.png)
+    }
+
+    .open-main-icon.icon-platform:before {
+        background-position: -1em -1em;
+        width: 16.2em;
+        height: 16.2em
+    }
+
+    .open-main-icon.icon-platform-hover:before {
+        background-position: -1em -19.2em;
+        width: 16.2em;
+        height: 16.2em
+    }
+
+    .open-main-icon.icon-setofgoods:before {
+        background-position: -1em -37.4em;
+        width: 16.2em;
+        height: 16.2em
+    }
+
+    .open-main-icon.icon-setofgoods-hover:before {
+        background-position: -1em -55.6em;
+        width: 16.2em;
+        height: 16.2em
+    }
+
+    .open-main {
+        background: #fff;
+        padding-bottom: 20px;
+        padding-top: 20px
+    }
+
+    .open-main img {
+        margin-bottom: 20px
+    }
+
+    .open-main ul {
+        background: #F9F9F9;
+        font-size: 0;
+        padding: 47px 90px 53px
+    }
+
+    .open-detail h1, .open-list td, .open-list th {
+        padding-left: 20px;
+        border-bottom: 1px solid #E5E5E5
+    }
+
+    .open-main li {
+        display: inline-block;
+        width: 50%
+    }
+
+    .open-main h2 {
+        font-size: 20px;
+        margin-bottom: 12px;
+        margin-top: 17px
+    }
+
+    .open-main p {
+        font-size: 14px
+    }
+
+    .open-main-icon:hover {
+        left: 1px;
+        top: 1px
+    }
+
+    .open-main-icon.icon-platform:hover:before {
+        background-position: -1em -19.2em
+    }
+
+    .open-main-icon.icon-setofgoods:hover:before {
+        background-position: -1em -55.6em
+    }
+
+    .open-list caption {
+        background: #F9F9F9;
+        height: 50px;
+        line-height: 50px;
+        padding-left: 20px;
+        border: 1px solid #E5E5E5;
+        border-bottom: 0
+    }
+
+    .open-detail, .open-list table {
+        border: 1px solid #E5E5E5
+    }
+
+    .open-list table {
+        width: 100%;
+        margin-bottom: 20px
+    }
+
+    .open-list td, .open-list th {
+        height: 44px;
+        line-height: 44px
+    }
+
+    .open-list th {
+        background: #fff;
+        position: relative
+    }
+
+    .open-list th:nth-child(1):before {
+        height: 20px;
+        width: 1px;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        margin-top: -10px;
+        background: #E5E5E5
+    }
+
+    .open-list tr:nth-child(odd) td {
+        background: #F9F9F9
+    }
+
+    .open-detail, .open-list tr:nth-child(even) td {
+        background: #fff
+    }
+
+    .open-detail h1 {
+        height: 50px;
+        line-height: 50px;
+        font-size: 20px;
+        font-weight: 400
+    }
+
+    .open-detail h2 {
+        font-size: 20px;
+        font-weight: 400;
+        margin-bottom: 20px
+    }
+
+    .open-detail h3 {
+        font-size: 16px;
+        font-weight: 400;
+        margin-bottom: 10px
+    }
+
+    .open-detail > section {
+        padding: 20px;
+        border-bottom: 1px solid #E5E5E5
+    }
+
+    .open-detail > section > section {
+        padding: 0 20px
+    }
+
+    .open-detail td, .open-detail th {
+        height: 32px;
+        padding-left: 30px;
+        line-height: 32px
+    }
+
+    .open-detail table {
+        width: 100%;
+        margin-top: 10px
+    }
+
+    .open-detail th {
+        background: #DBEFF6
+    }
+
+    .open-detail td {
+        background: #F9F9F9
+    }
+
+    .open-detail tr:nth-child(even) td {
+        background: #F2F2F2
+    }
+
+    .open-detail hr {
+        height: 1px;
+        background: #E5E5E5;
+        margin: 20px 0;
+        border: none
+    }
+
+    .open-detail-btn {
+        width: 120px;
+        height: 32px;
+        line-height: 32px;
+        background: #1494BF;
+        color: #fff !important;
+        display: inline-block
+    }
+
+    .open-detail pre {
+        line-height: 1.5
+    }
+
+    .open-article {
+        background: #F9F9F9;
+        border: 1px solid #E5E5E5;
+        padding: 30px 35px
+    }
+
+    .open-article h1 {
+        font-size: 27px;
+        margin-bottom: 30px
+    }
+
+    .open-article pre {
+        margin-bottom: 32px;
+        line-height: 24px
+    }
+
+    .open-article h2 {
+        font-size: 21px;
+        margin: 20px 0
+    }
+
+    .open-article h3 {
+        font-size: 18px;
+        margin: 20px 0
+    }
+
+    .open-article li, .open-article p {
+        font-size: 14px;
+        line-height: 24px
+    }
+
+    .open-article td, .open-article th {
+        height: 32px;
+        line-height: 32px;
+        padding-left: 30px
+    }
+
+    .open-article p {
+        margin-bottom: 20px
+    }
+
+    .open-article table {
+        width: 100%;
+        margin-top: 10px
+    }
+
+    .open-article th {
+        background: #DBEFF6
+    }
+
+    .open-article td {
+        background: #F9F9F9
+    }
+
+    .open-article tr:nth-child(even) td {
+        background: #F2F2F2
+    }
+
+    .open-article img {
+        max-width: 800px
+    }
+
+    .open-footer {
+        background-color: #32325d;
+        font-size: 18px;
+        letter-spacing: 1px;
+        color: #fff;;
+        border: none;
+        box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+        transform: translateY(0);
+        transition: all .2s;
+        padding-bottom: 26px;
+        padding-top: 25px;
+        margin-top: 30px
+    }
+
+    .open-footer ul {
+        margin-bottom: 21px;
+        width: 1180px;
+        margin: 0 auto;
+        display: flex;
+    }
+
+    .open-footer li {
+        display: inline;
+        font-size: 14px;
+        color: #aaa
+    }
+
+    .open-footer li {
+        /* display: inline; */
+        font-size: 14px;
+        height: 100px;
+        flex: 1;
+        color: #aaa;
+    }
+    .ant-col-6 {
+        display: inline-block;
+        /* box-sizing: border-box; */
+        /* width: 25%; */
+    }
+
+
+    .open-footer li a {
+        color: #eee;
+        margin: 0 44px
+    }
+
+    .open-footer li a:hover {
+        color: #CCC;
+        color: rgba(204, 204, 204, .8)
+    }
+
+    .open-footer p {
+        color: #999
+    }
+
+    .open-sideber-list1 > li.active > a, .open-sideber-list2 > li.active a {
+        color: #E73836
+    }
+
+    body {
+        background: #fff
+    }
+
+    .open-grid-c1 {
+        width: 270px;
+        float: left;
+        margin-right: 20px
+    }
+
+    .open-sideber-list1 > li {
+
+        line-height: 50px;
+        margin-bottom: 3px;
+        font-size: 14px;
+        position: relative
+    }
+
+    .open-sideber-list1 > li > a {
+        display: block;
+
+    }
+
+    .open-sideber-list1 > li > a:first-child {
+        background-color: #32325d;
+        font-size: 18px;
+        letter-spacing: 1px;
+        color: #fff;;
+        border-radius: 4px 4px 0 0;
+        border: none;
+        padding: 0 10px;
+        box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+        transform: translateY(0);
+        transition: all .2s;
+    }
+
+    .open-sideber-list1 > li.active {
+        background: #f9f9f9
+    }
+
+    .open-sideber-list1 li.active:before {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        margin-top: -10px;
+        height: 20px;
+        width: 3px;
+        background: #E73836
+    }
+
+    .open-sideber-list2 {
+        background: #F9F9F9;
+        padding: 10px 2px
+    }
+
+    .open-sideber-list2 > li {
+        padding: 5px 15px 5px 31px;
+        line-height: 18px;
+        position: relative;
+        word-break: break-word
+    }
+
+    .open-sideber-list2 > li.active {
+        background: #fff
+    }
+
+    .open-sideber-list2 > li.active:before {
+        right: -3px
+    }
+
+    .open-sideber-list2 li:hover {
+        text-decoration: underline;
+        background: #fff
+    }
+
+    .open-breadcrumbs {
+        margin: 20px 0 20px -5px
+    }
+
+    .open-breadcrumbs a {
+        margin: 0 5px
+    }
+
+    .haitao-btn {
+        display: block;
+        -webkit-box-flex: 1;
+        -webkit-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+        background: #F13C34;
+        color: #fff;
+        height: 100%;
+        line-height: 50px;
+        font-size: 14px
+    }
+
+    .haitao-btn:hover {
+        color: #fff
+    }
+
+    .cb {
+        zoom: 1
+    }
+
+    .cb:after {
+        display: block;
+        height: 0;
+        clear: both
+    }
+
+    .doc-box, .doc-box ul {
+        font-size: 14px
+    }
+
+    .doc-padd {
+        padding: 20px 40px
+    }
+
+    .doc-left {
+        width: 270px;
+        float: left
+    }
+
+    .doc-right {
+        width: 890px;
+        float: right;
+        border: 1px solid #e5e5e5
+    }
+
+    body ul.doc-menu {
+        padding: 0;
+        background: 0 0
+    }
+
+    .doc-menu li {
+        padding: 0;
+        height: 50px;
+        width: 100%;
+        line-height: 50px;
+        margin-bottom: 3px;
+        background: #f2f2f2;
+        text-align: left;
+        text-indent: 20px
+    }
+
+    .doc-menu li a {
+        display: block;
+        height: 100%
+    }
+
+    .doc-menu li.cur, .doc-menu li:hover {
+        color: #e84644;
+        background: #f9f9f9;
+        position: relative
+    }
+
+    .doc-menu li.cur a, .doc-menu li:hover a {
+        color: #e84644
+    }
+
+    .b-btn, .b-btn:hover {
+        color: #fff
+    }
+
+    .doc-menu li.cur:after, .doc-menu li:hover:after {
+        content: '';
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 15px;
+        width: 3px;
+        height: 20px;
+        background: #e73835
+    }
+
+    .b-btn {
+        height: 36px;
+        line-height: 36px;
+        display: inline-block;
+        padding: 0 20px;
+        background: #e23e3f;
+        border-radius: 5px;
+        border: none
+    }
+
+    .empty-cont {
+        min-height: 610px;
+        background: #f9f9f9
+    }
+
+    .empty-cont .empty-icon {
+        height: 166px;
+        width: 152px;
+        background: url(../svg/empty.jpg) center center no-repeat;
+        margin: auto
+    }
+
+    .empty-cont .empty-padd {
+        padding-top: 100px
+    }
+
+    .empty-cont .empty-desc {
+        text-align: center;
+        padding-top: 30px
+    }
+
+    .empty-cont .empty-desc a {
+        padding: 0 10px;
+        color: #058dbf
+    }
+
+    .b-input {
+        height: 34px;
+        line-height: 34px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 0 5px
+    }
+
+    .open-header-c3 {
+        clear: right;
+        padding-top: 14px;
+        padding-right: 10px
+    }
+
+    .error-box {
+        padding: 30px 70px
+    }
+
+    .error-box h1 {
+        font-size: 20px
+    }
+
+    .error-box h2 {
+        font-size: 18px
+    }
+
+    .error-box pre {
+        font-size: 14px
+    }
+</style>
+<style>
+    .menu-item.selected {
+        font-weight: 600;
+        color: #24292e;
+        cursor: default;
+        background-color: #fff;
+    }
+
+    .menu-item:first-child, .menu-item:first-child:before {
+        border-top-left-radius: 2px;
+    }
+
+    .menu-item:first-child {
+        border-top: 0;
+        border-top-right-radius: 2px;
+    }
+
+    .menu-item {
+        position: relative;
+        display: block;
+        margin-left: 0 !important;
+        padding: 0 10px;
+        border-bottom: 1px solid #e1e4e8;
+    }
+
+    .menu-item.selected:before {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 2px;
+        content: "";
+        background-color: #e36209;
+    }
+
+    .menu-item:first-child, .menu-item:first-child:before {
+        border-top-left-radius: 2px;
+    }
+</style>
+<!--<div class="open-header clearfix">-->
+<!--<div class="pm">-->
+<!--<div class="open-header-c1 fl">-->
+<!--&lt;!&ndash; logo &ndash;&gt;-->
+<!--<a href="/"><span class='open-header-icon'></span></a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<div class="open-nav">
+    <div class="pm">
+        <!-- 横向导航栏 -->
+        <ul class="openapi-nav">
+            <!--<li class="openapi-nav-index"><a href="/index">首页</a></li>-->
+            <li class="openapi-nav-apis" type=""><a href="#">API</a></li>
+            <!--<li class="openapi-nav-docs"><a href="/docs">文档</a></li>-->
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    function setLang(lang) {
+        $.post("/lang", {lang: lang}, function (result) {
+            window.location.reload(true);
+        });
+    }
+
+    var selected = "index";
+    var locationPath = window.location.pathname.toLowerCase();
+    if (locationPath.indexOf("apis") > 0 || locationPath.indexOf("testapi") > 0) {
+        selected = "apis";
+    } else if (locationPath.indexOf("docs") > 0) {
+        selected = "docs";
+    } else if (locationPath.indexOf("enter") > 0) {
+        selected = "enter";
+    }
+    $(".openapi-nav li").removeClass("active");
+    $(".openapi-nav-" + selected).addClass("active");
+</script>
+<div class="pm">
+    <nav class="open-breadcrumbs">
+        <a href="/doc/group/${model.name}">API</a>/${model.name}
+    </nav>
+    <div class="clearfix">
+        <div class="open-grid-c1">
+            <aside class="open-sideber">
+                <ul class="open-sideber-list1">
+                    <li>
+                        <a href="">api分组</a>
+                        <!--<ul class="open-sideber-list2">-->
+                        <!-- for 方法分组和url -->
+                        <#list groupNames as gp>
+                        <!--<li data-name="${gp.name}"><a href="/doc/group/${gp.name}">${gp.name}</a></li>-->
+                        <a data-name="${gp.name}" href="/doc/group/${gp.name}" class="menu-item ">${gp.name}</a>
+                    </#list>
+                    <!--</ul>-->
+                    </li>
+                </ul>
+            </aside>
+        </div>
+        <div class="open-grid-c2">
+            <section class="open-list">
+                <table>
+                    <caption>${model.name}</caption>
+                    <thead>
+                    <tr>
+                        <th>名称</th>
+                        <th>描述</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- for 方法简介 -->
+                    <#list model.methods as item>
+                    <tr>
+                        <td><a href="/doc/api/${model.name}/${item.name}">${item.name}</a></td>
+                        <td><a href="/doc/api/${model.name}/${item.name}">${item.description}</a></td>
+                    </tr>
+                    </#list>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </div>
+</div>
+
+<div class="open-footer">
+    <ul>
+
+        <li class="ant-col-6"><a href="#">API</a></li>
+        <li class="ant-col-6"><a href="#">API</a></li>
+        <li class="ant-col-6"><a href="#">API</a></li>
+        <li class="ant-col-6"><a href="#">API</a></li>
+    </ul>
+    <p>备案</p>
+</div>
+
+<!--<div class="footer-wrapper">-->
+    <!--<div class="ant-row footer-container">-->
+        <!--<div class="ant-col-6"><h4 class="title"><i class="anticon anticon-github icon"></i>GitHub</h4>-->
+            <!--<p><a href="https://github.com/YMFE/yapi" class="link">YApi 源码仓库</a></p></div>-->
+        <!--<div class="ant-col-6"><h4 class="title"><i class="anticon anticon-team icon"></i>团队</h4>-->
+            <!--<p><a href="##" class="link">未知</a></p></div>-->
+        <!--<div class="ant-col-6"><h4 class="title"><i class="anticon anticon-aliwangwang-o icon"></i>反馈</h4>-->
+            <!--<p><a href="##" class="link">Github Issues</a></p>-->
+            <!--<p><a href="##" class="link">Github Pull Requests</a></p></div>-->
+        <!--<div class="ant-col-6"><h4 class="title">Copyright © 2018 YMFE</h4>-->
+            <!--<p><a href="##" class="link">版本: 1.3.23 </a></p>-->
+            <!--<p><a href="##" class="link">使用文档</a></p></div>-->
+    <!--</div>-->
+
+<!--</div>-->
+
+
+<script src="http://open.fengqu.com/js/md5.min.js"></script>
+<script type="text/javascript">
+    var path = location.pathname.split("/");
+    var len = path.length;
+    if (len > 2) {
+        var groupElement = $("." + path[len - 2]);
+        groupElement.addClass("selected");
+        groupElement.parent().parent().find("ul").css("display", "block");
+        $("[data-name='" + decodeURI(path[len - 1]) + "']").addClass("selected");
+    }
+    $(".groupName").click(function () {
+        if ($(this).parent().parent().find("ul").css("display") == "block") {
+            $(this).removeClass('selected');
+            $($(this).parent().parent().find("ul")).css("display", "none");
+        }
+        else {
+            $(this).addClass('selected');
+            $($(this).parent().parent().find("ul")).css("display", "block");
+        }
+    });
+
+    function setLang(lang) {
+        $.post("/lang", {lang: lang}, function (result) {
+            window.location.reload(true);
+        });
+    }
+</script>
+</body>
+</html>

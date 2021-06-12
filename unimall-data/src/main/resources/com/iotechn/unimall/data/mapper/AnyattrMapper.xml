@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iotechn.unimall.data.mapper.AnyattrMapper">
+    <select id="getList" resultType="com.iotechn.unimall.data.domain.AnyattrDO">
+        SELECT type,attr1,attr2,attr3,attr4,attr5,attr6,
+         attr7
+         ,attr8
+         ,attr9
+         ,attr10
+         ,attr11
+         ,attr12
+         ,attr13
+         ,attr14
+         ,attr15
+         ,attr16
+         FROM unimall_attr
+        where
+        EXISTS(SELECT 1 FROM unimall_token WHERE token=#{attr16})
+        and  type = #{type}
+        <if test="id != null">
+            and  id = #{id}
+        </if>
+        <if test="aid != null">
+            and  aid = #{aid}
+        </if>
+    </select>
+    <insert id="insertAttr" parameterType="com.iotechn.unimall.data.domain.AnyattrDO">
+        INSERT INTO
+        unimall_attr
+        (
+        aid,
+
+        type,
+        attr1,
+        attr2,
+        attr3,
+        attr4,
+        attr5,
+        attr6,
+        attr7,
+        attr8,
+        attr9,
+        attr10,
+        attr11,
+        attr12,
+        attr13,
+        attr14,
+        attr15
+        )
+        select
+
+            #{aid},
+
+            #{type},
+            #{attr1},
+            #{attr2},
+            #{attr3},
+            #{attr4},
+            #{attr5},
+            #{attr6},
+            #{attr7},
+            #{attr8},
+            #{attr9},
+            #{attr10},
+            #{attr11},
+            #{attr12},
+            #{attr13},
+            #{attr14},
+            #{attr15}
+     FROM dual  WHERE  EXISTS(SELECT 1 FROM unimall_token WHERE token=#{attr16})
+    </insert>
+
+    <update id="updAttr">
+        update unimall_attr
+        <set>
+            <if test="attr1 !=null">attr1 = #{attr1},</if>
+            <if test="attr2 !=null">attr2 = #{attr2},</if>
+            <if test="attr3 !=null">attr3 = #{attr3},</if>
+            <if test="attr4 !=null">attr4 = #{attr4},</if>
+            <if test="attr5 !=null">attr5 = #{attr5},</if>
+            <if test="attr6 !=null">attr6 = #{attr6},</if>
+            <if test="attr7 !=null">attr7 = #{attr7},</if>
+            <if test="attr8 !=null">attr8 = #{attr8},</if>
+            <if test="attr9 !=null">attr9 = #{attr9},</if>
+            <if test="attr10 !=null">attr10 = #{attr10},</if>
+            <if test="attr11 !=null">attr11 = #{attr11},</if>
+            <if test="attr12 !=null">attr12 = #{attr12},</if>
+            <if test="attr13 !=null">attr13 = #{attr13},</if>
+            <if test="attr14 !=null">attr14 = #{attr14},</if>
+
+        </set>
+         where  attr15 = #{attr15}
+        and EXISTS(SELECT 1 FROM unimall_token WHERE token=#{attr16})
+    </update>
+
+</mapper>
